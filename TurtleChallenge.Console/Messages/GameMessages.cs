@@ -1,4 +1,5 @@
-﻿namespace TurtleChallenge.Console.Messages
+﻿
+namespace TurtleChallenge.Console.Messages
 {
     public partial class Message
     {

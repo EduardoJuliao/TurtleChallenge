@@ -1,4 +1,5 @@
-﻿using TurtleChallenge.Console;
+﻿using Moq;
+using TurtleChallenge.Console;
 using TurtleChallenge.Console.Entities;
 using TurtleChallenge.Console.Enums;
 using TurtleChallenge.Console.Interfaces;
@@ -222,6 +223,22 @@ namespace TurtleChallenge.UnitTests
             // Assert
             Assert.Equal(GameStatus.Success, result.GameStatus);
             Assert.Equal(Message.TurtleHasExited, result.Message);
+        }
+
+        [Fact]
+        public void ValidationIsCalled_WhenGameIsCreated()
+        {
+            // Arrange
+            var gameSetupValidator = new Mock<IGameSetupValidator>();
+            var gameBuilder = new GameBuilder(5, 4, gameSetupValidator.Object);
+
+            // Act
+            gameBuilder.Build();
+
+            // Assert
+            gameSetupValidator.Verify(x => x.CheckForMissingGamingObject(It.IsAny<GameObject[,]>(), GameObjectType.Turtle), Times.Once);
+            gameSetupValidator.Verify(x => x.CheckForMissingGamingObject(It.IsAny<GameObject[,]>(), GameObjectType.ExitPoint), Times.Once);
+
         }
     }
 }

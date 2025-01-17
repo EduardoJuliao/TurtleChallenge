@@ -148,5 +148,24 @@ namespace TurtleChallenge.UnitTests
             // Assert
             Assert.Null(Record.Exception(setGameObjectAct));
         }
+
+        [Theory]
+        [InlineData(GameObjectType.Turtle)]
+        [InlineData(GameObjectType.ExitPoint)]
+        public void ThrowsException_OnBuildingGame_WhenGameObjectIsMissing(GameObjectType gameObjectType)
+        {
+            // Arrange
+            _mockupBoard[1, 1] = new GameObject
+            {
+                GameObjectType = GameObjectType.Mine
+            };
+
+            // Act
+            void buildGameAct() => _gameSetupValidator.CheckForMissingGamingObject(_mockupBoard, gameObjectType);
+
+            // Assert
+            var exception = Assert.Throws<KeyNotFoundException>(buildGameAct);
+            Assert.Equal(string.Format(Message.MissingGameObject, gameObjectType), exception.Message);
+        }
     }
 }

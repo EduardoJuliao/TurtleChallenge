@@ -1,4 +1,5 @@
 ﻿using TurtleChallenge.Console.Entities;
+using TurtleChallenge.Console.Enums;
 using TurtleChallenge.Console.Interfaces;
 
 namespace TurtleChallenge.Console
@@ -50,6 +51,9 @@ namespace TurtleChallenge.Console
 
         public IGame Build()
         {
+            _gameSetupValidator.CheckForMissingGamingObject(Board, GameObjectType.Turtle);
+            _gameSetupValidator.CheckForMissingGamingObject(Board, GameObjectType.ExitPoint);
+
             return new Game(Board);
         }
     }

@@ -44,5 +44,18 @@ namespace TurtleChallenge.Console.Validators
                 throw new Exception(string.Format(Message.SlotAlreadyInUse, x, y, board[x, y].GameObjectType));
             }
         }
+
+        public void CheckForMissingGamingObject(GameObject[,] board, GameObjectType gameObjectType)
+        {
+            var hasGameObject = board.Cast<GameObject>()
+                .Where(x => x != null)
+                .Select(x => x.GameObjectType)
+                .Any(x => x.Equals(gameObjectType));
+
+            if (!hasGameObject)
+            {
+                throw new KeyNotFoundException(string.Format(Message.MissingGameObject, gameObjectType));
+            }
+        }
     }
 }
